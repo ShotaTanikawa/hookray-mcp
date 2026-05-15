@@ -13,10 +13,15 @@ export const CreateWebhookInboxInputSchema = z.object({
     ),
 });
 
+// Timestamps from the HookRay backend are Postgres timestamptz values
+// serialized with a numeric offset and microseconds
+// (e.g. "2026-05-22T08:13:55.528+00:00"), which zod's strict
+// .datetime() (Z-only) rejects. These are our own backend's responses,
+// not untrusted input, so output-side timestamps stay plain strings.
 export const CreateWebhookInboxOutputSchema = z.object({
   inbox_id: z.string().describe("8-char slug, e.g. abc12345"),
   url: z.string().url().describe("Full HTTPS URL to POST webhooks to"),
-  expires_at: z.string().datetime().optional(),
+  expires_at: z.string().optional().describe("ISO 8601 timestamp"),
   max_requests: z.number().int().optional(),
 });
 
@@ -24,14 +29,14 @@ export const ListRequestsInputSchema = z.object({
   inbox_id: z.string(),
   limit: z.number().int().min(1).max(500).default(20),
   method: HttpMethodSchema.optional(),
-  since: z.string().datetime().optional().describe("Only return requests after this ISO timestamp"),
+  since: z.string().optional().describe("Only return requests after this ISO 8601 timestamp"),
   search: z.string().optional().describe("Substring match on request body"),
 });
 
 export const RequestSummarySchema = z.object({
   request_id: z.string(),
   method: z.string(),
-  captured_at: z.string().datetime(),
+  captured_at: z.string().describe("ISO 8601 timestamp"),
   content_type: z.string().optional(),
   body_preview: z.string().optional().describe("First 200 chars of body"),
 });
@@ -51,7 +56,7 @@ export const InspectRequestOutputSchema = z.object({
   body: z.string(),
   query_params: HeaderRecordSchema,
   content_type: z.string().optional(),
-  captured_at: z.string().datetime().optional(),
+  captured_at: z.string().optional().describe("ISO 8601 timestamp"),
   source_ip: z.string().optional(),
 });
 
@@ -60,9 +65,8 @@ export const WaitForRequestInputSchema = z.object({
   timeout_seconds: z.number().int().min(1).max(300).default(60),
   since: z
     .string()
-    .datetime()
     .optional()
-    .describe("Only consider requests captured after this timestamp. Default: now."),
+    .describe("Only consider requests captured after this ISO 8601 timestamp. Default: now."),
 });
 
 export const WaitForRequestTimeoutOutputSchema = z.object({
