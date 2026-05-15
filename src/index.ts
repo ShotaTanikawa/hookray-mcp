@@ -1,6 +1,4 @@
 #!/usr/bin/env node
-import { pathToFileURL } from "node:url";
-
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import type { z } from "zod/v4";
@@ -80,15 +78,8 @@ const toStructuredContent = (value: unknown): Record<string, unknown> => {
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === "object" && value !== null && !Array.isArray(value);
 
-const isEntrypoint = (): boolean => {
-  const scriptPath = process.argv[1];
-  return scriptPath !== undefined && import.meta.url === pathToFileURL(scriptPath).href;
-};
-
-if (isEntrypoint()) {
-  startServer().catch((error: unknown) => {
-    const message = error instanceof Error ? error.stack ?? error.message : String(error);
-    console.error(message);
-    process.exit(1);
-  });
-}
+startServer().catch((error: unknown) => {
+  const message = error instanceof Error ? error.stack ?? error.message : String(error);
+  console.error(message);
+  process.exit(1);
+});
