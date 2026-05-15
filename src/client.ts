@@ -8,7 +8,7 @@ export type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
 export type HeaderRecord = Record<string, string>;
 
 export type CreateInboxInput = {
-  persistent?: boolean;
+  persistent?: boolean | undefined;
 };
 
 export type CreateInboxOutput = {
@@ -20,10 +20,10 @@ export type CreateInboxOutput = {
 
 export type ListRequestsInput = {
   inbox_id: string;
-  limit?: number;
-  method?: HttpMethod;
-  since?: string;
-  search?: string;
+  limit?: number | undefined;
+  method?: HttpMethod | undefined;
+  since?: string | undefined;
+  search?: string | undefined;
 };
 
 export type RequestSummary = {
@@ -55,8 +55,8 @@ export type InspectRequestOutput = {
 
 export type WaitForRequestInput = {
   inbox_id: string;
-  timeout_seconds?: number;
-  since?: string;
+  timeout_seconds?: number | undefined;
+  since?: string | undefined;
 };
 
 export type WaitForRequestOutput = InspectRequestOutput | { timeout: true };
