@@ -8,7 +8,4 @@ export default defineConfig({
   clean: true,
   target: "node20",
   platform: "node",
-  banner: {
-    js: "#!/usr/bin/env node",
-  },
 });
