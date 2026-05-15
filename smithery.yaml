@@ -1,0 +1,14 @@
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      HOOKRAY_API_KEY:
+        type: string
+        description: Optional HookRay API key for persistent inboxes (Pro plan)
+      HOOKRAY_BASE_URL:
+        type: string
+        description: Override HookRay base URL (default https://hookray.com)
+  commandFunction:
+    - "node"
+    - "dist/index.js"
