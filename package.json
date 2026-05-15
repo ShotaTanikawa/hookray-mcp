@@ -1,0 +1,57 @@
+{
+  "name": "hookray-mcp",
+  "version": "0.1.0",
+  "description": "Webhook testing for AI agents.",
+  "type": "module",
+  "bin": {
+    "hookray-mcp": "./dist/index.js"
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "keywords": [
+    "hookray",
+    "mcp",
+    "model-context-protocol",
+    "webhooks",
+    "webhook-testing"
+  ],
+  "author": "Shota Tanikawa",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShotaTanikawa/hookray-mcp.git"
+  },
+  "homepage": "https://hookray.com",
+  "bugs": {
+    "url": "https://github.com/ShotaTanikawa/hookray-mcp/issues"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^20.19.25",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "mcp": {
+    "name": "HookRay",
+    "description": "Webhook testing for AI agents - capture, inspect, wait for, and replay HTTP requests.",
+    "homepage": "https://hookray.com"
+  }
+}
